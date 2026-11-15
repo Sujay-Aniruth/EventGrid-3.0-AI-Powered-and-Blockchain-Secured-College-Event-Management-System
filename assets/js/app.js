@@ -1,0 +1,4 @@
+document.querySelectorAll('[data-confirm]').forEach(el=>el.addEventListener('click',e=>{if(!confirm(el.dataset.confirm)){e.preventDefault();e.stopPropagation()}}));
+document.querySelectorAll('form[data-validate]').forEach(form=>form.addEventListener('submit',e=>{if(!form.reportValidity()){e.preventDefault()}}));
+const unread=document.getElementById('nav-unread');
+if(unread){const base=document.querySelector('meta[name="base-url"]').content;const refresh=()=>fetch(base+'/api/notifications.php',{credentials:'same-origin'}).then(r=>{if(!r.ok)throw new Error('Notification count could not be refreshed.');return r.json()}).then(data=>{unread.textContent=data.unread;const metric=document.getElementById('unread-count');if(metric)metric.textContent=data.unread;}).catch(()=>{});window.setInterval(refresh,30000);}
